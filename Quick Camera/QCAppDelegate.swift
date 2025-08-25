@@ -142,7 +142,7 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCa
             self.input = try AVCaptureDeviceInput(device: device)
             self.captureSession.addInput(input)
             
-            // QRコード読み取り用のビデオ出力を設定
+            // Set up video output for QR code reading
             setupVideoOutput()
             
             self.captureSession.startRunning()
@@ -173,7 +173,7 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCa
             captureSession.addOutput(videoOutput)
         }
         
-        // QRコードリーダーの設定
+        // Configure QR code reader
         qrReader.delegate = self
     }
 
@@ -503,33 +503,33 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCa
     // MARK: - QCQRCodeReaderDelegate
     func didDetectQRCode(_ code: String) {
         DispatchQueue.main.async {
-            // URLかどうかをチェック
+            // Check if it's a URL
             if self.isValidURL(code) {
                 let alert = NSAlert()
-                alert.messageText = "QRコードでURLを検出しました"
+                alert.messageText = "QR Code URL Detected"
                 alert.informativeText = code
-                alert.addButton(withTitle: "開く")
-                alert.addButton(withTitle: "コピー")
-                alert.addButton(withTitle: "キャンセル")
+                alert.addButton(withTitle: "Open")
+                alert.addButton(withTitle: "Copy")
+                alert.addButton(withTitle: "Cancel")
                 
                 let response = alert.runModal()
                 if response == .alertFirstButtonReturn {
-                    // URLを開く
+                    // Open URL
                     if let url = URL(string: code) {
                         NSWorkspace.shared.open(url)
                     }
                 } else if response == .alertSecondButtonReturn {
-                    // クリップボードにコピー
+                    // Copy to clipboard
                     let pasteboard = NSPasteboard.general
                     pasteboard.clearContents()
                     pasteboard.setString(code, forType: .string)
                 }
             } else {
-                // URL以外の場合は従来通り
+                // For non-URL content, use standard behavior
                 let alert = NSAlert()
-                alert.messageText = "QRコードを検出しました"
+                alert.messageText = "QR Code Detected"
                 alert.informativeText = code
-                alert.addButton(withTitle: "コピー")
+                alert.addButton(withTitle: "Copy")
                 alert.addButton(withTitle: "OK")
                 
                 let response = alert.runModal()
@@ -543,7 +543,7 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCa
     }
     
     func didFailToReadQRCode(_ error: Error) {
-        NSLog("QRコード読み取りエラー: %@", error.localizedDescription)
+        NSLog("QR Code reading error: %@", error.localizedDescription)
     }
     
     // MARK: - URL Validation Helper
@@ -552,20 +552,20 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCa
             return false
         }
         
-        // URLが有効なスキームを持っているかチェック
+        // Check if URL has valid scheme
         guard let scheme = url.scheme?.lowercased() else {
             return false
         }
         
-        // サポートするスキームを定義
+        // Define supported schemes
         let supportedSchemes = ["http", "https", "ftp", "ftps", "mailto", "tel"]
         
-        // スキームがサポートされているかチェック
+        // Check if scheme is supported
         guard supportedSchemes.contains(scheme) else {
             return false
         }
         
-        // HTTPまたはHTTPSの場合、ホストが存在するかチェック
+        // For HTTP or HTTPS, check if host exists
         if scheme == "http" || scheme == "https" {
             guard let host = url.host, !host.isEmpty else {
                 return false
@@ -582,9 +582,9 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCa
             (isQRReadingEnabled ? NSControl.StateValue.on.rawValue : NSControl.StateValue.off.rawValue))
         
         if isQRReadingEnabled {
-            NSLog("QRコード読み取りを開始しました")
+            NSLog("QR Code reading started")
         } else {
-            NSLog("QRコード読み取りを停止しました")
+            NSLog("QR Code reading stopped")
             qrReader.stopReading()
         }
     }

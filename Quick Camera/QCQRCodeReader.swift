@@ -2,7 +2,7 @@ import Foundation
 import AVFoundation
 import CoreImage
 
-// zbarのC関数を直接宣言
+// MARK: - ZBar C Function Declarations
 @_silgen_name("zbar_image_scanner_create")
 func zbar_image_scanner_create() -> UnsafeMutableRawPointer?
 
@@ -42,47 +42,51 @@ func zbar_symbol_get_data(_ symbol: UnsafeMutableRawPointer?) -> UnsafePointer<I
 @_silgen_name("zbar_symbol_next")
 func zbar_symbol_next(_ symbol: UnsafeMutableRawPointer?) -> UnsafeMutableRawPointer?
 
-// zbarの定数を定義
+// MARK: - ZBar Constants
 let ZBAR_QRCODE: Int32 = 64
 let ZBAR_CFG_ENABLE: Int32 = 1
 let ZBAR_CFG_POSITION: Int32 = 2
 let ZBAR_CFG_UNCERTAINTY: Int32 = 0x30303855
 
-// zbarの画像形式定数
+// ZBar image format constants
 let ZBAR_FMT_Y800: Int32 = 0x30303859  // "Y800" (グレースケール)
 
 
+// MARK: - QCQRCodeReaderDelegate Protocol
 protocol QCQRCodeReaderDelegate: AnyObject {
     func didDetectQRCode(_ code: String)
     func didFailToReadQRCode(_ error: Error)
 }
 
+// MARK: - QCQRCodeReader Class
 class QCQRCodeReader: NSObject {
+    // MARK: - Properties
     weak var delegate: QCQRCodeReaderDelegate?
     private var isReading = false
     
+    // MARK: - Public Methods
     func startReading(from sampleBuffer: CMSampleBuffer) {
         guard !isReading else { return }
         
         isReading = true
         
-        // サンプルバッファから画像を取得
+        // Extract image from sample buffer
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             isReading = false
             return
         }
         
-        // CIImageに変換
+        // Convert to CIImage
         let ciImage = CIImage(cvImageBuffer: imageBuffer)
         
-        // CGImageに変換
+        // Convert to CGImage
         let context = CIContext()
         guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
             isReading = false
             return
         }
         
-        // zbarでQRコードを検出
+        // Detect QR codes with ZBar
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             let result = self?.scanImageWithZBar(cgImage)
             
@@ -92,44 +96,45 @@ class QCQRCodeReader: NSObject {
                 if let code = result {
                     self?.delegate?.didDetectQRCode(code)
                 }
-                // QRコードが見つからない場合は何もしない（正常な動作）
+                // Do nothing if QR code not found (normal behavior)
             }
         }
     }
     
+    // MARK: - Private Methods
     private func scanImageWithZBar(_ image: CGImage) -> String? {
         let width = image.width
         let height = image.height
         
-        // 画像をグレースケールに変換してコントラストを向上
+        // Convert image to grayscale and improve contrast
         let processedImage = preprocessImageForQRCode(image)
         
-        // 安全なzbarスキャナーの作成
+        // Create ZBar scanner safely
         guard let scanner = zbar_image_scanner_create() else {
             return nil
         }
         
-        // リソースのクリーンアップを確実に行うためにdeferを使用
+        // Use defer to ensure resource cleanup
         defer {
             zbar_image_scanner_destroy(scanner)
         }
         
-        // スキャナーの設定
+        // Configure scanner
         zbar_image_scanner_set_config(scanner, 0, ZBAR_CFG_ENABLE, 1)
         zbar_image_scanner_set_config(scanner, ZBAR_QRCODE, ZBAR_CFG_ENABLE, 1)
         zbar_image_scanner_set_config(scanner, ZBAR_QRCODE, ZBAR_CFG_POSITION, 1)
         
-        // zbar_image_tの作成
+        // Create zbar_image_t
         guard let zbarImage = zbar_image_create() else {
             return nil
         }
         
-        // zbar_image_tのクリーンアップもdeferで管理
+        // Manage zbar_image_t cleanup with defer
         defer {
             zbar_image_destroy(zbarImage)
         }
         
-        // 画像データの取得と変換
+        // Get and convert image data
         guard let dataProvider = processedImage.dataProvider,
               let data = dataProvider.data else {
             return nil
@@ -138,15 +143,15 @@ class QCQRCodeReader: NSObject {
         let bytes = CFDataGetBytePtr(data)
         let length = CFDataGetLength(data)
         
-        // データの長さを確認
+        // Check data length
         guard length > 0 && bytes != nil else {
             return nil
         }
         
-        // 画像データの形式を設定（グレースケール）
+        // Set image data format (grayscale)
         let format: Int32 = ZBAR_FMT_Y800
         
-        // zbar_image_tにデータを設定
+        // Set data to zbar_image_t
         zbar_image_set_size(zbarImage, UInt32(width), UInt32(height))
         zbar_image_set_format(zbarImage, format)
         zbar_image_set_data(zbarImage, bytes, length, 0)
@@ -156,7 +161,7 @@ class QCQRCodeReader: NSObject {
         var detectedCode: String? = nil
         
         if scanResult >= 0 {
-            // 結果を取得
+            // Get results
             var symbol = zbar_image_first_symbol(zbarImage)
             
             while symbol != nil {
@@ -181,7 +186,7 @@ class QCQRCodeReader: NSObject {
         let context = CIContext()
         let ciImage = CIImage(cgImage: image)
         
-        // 確実にグレースケール画像に変換
+        // Ensure conversion to grayscale image
         let grayscaleFilter = CIFilter(name: "CIColorControls")
         grayscaleFilter?.setValue(ciImage, forKey: kCIInputImageKey)
         grayscaleFilter?.setValue(0.0, forKey: kCIInputSaturationKey) // 彩度を0にしてグレースケール化
@@ -190,7 +195,7 @@ class QCQRCodeReader: NSObject {
             return image
         }
         
-        // コントラストを向上
+        // Improve contrast
         let contrastFilter = CIFilter(name: "CIColorControls")
         contrastFilter?.setValue(grayscaleImage, forKey: kCIInputImageKey)
         contrastFilter?.setValue(1.3, forKey: kCIInputContrastKey) // コントラストを1.3倍に
@@ -202,7 +207,7 @@ class QCQRCodeReader: NSObject {
             return cgImage
         }
         
-        // シャープネスを向上
+        // Improve sharpness
         let sharpenFilter = CIFilter(name: "CISharpenLuminance")
         sharpenFilter?.setValue(contrastImage, forKey: kCIInputImageKey)
         sharpenFilter?.setValue(0.5, forKey: kCIInputSharpnessKey) // シャープネスを0.5に
@@ -216,10 +221,10 @@ class QCQRCodeReader: NSObject {
         }
         
         
-        // アルファ情報が残っている場合は、確実にグレースケールに変換
+        // If alpha info remains, ensure conversion to grayscale
         if cgImage.alphaInfo != .none {
             
-            // グレースケール画像を新しく作成
+            // Create new grayscale image
             let colorSpace = CGColorSpaceCreateDeviceGray()
             let bitmapInfo = CGImageAlphaInfo.none.rawValue
             
@@ -233,10 +238,10 @@ class QCQRCodeReader: NSObject {
                 return image
             }
             
-            // 元の画像をグレースケールに変換して描画
+            // Draw original image converted to grayscale
             context.draw(cgImage, in: CGRect(x: 0, y: 0, width: cgImage.width, height: cgImage.height))
             
-            // 新しいグレースケール画像を作成
+            // Create new grayscale image
             guard let newCGImage = context.makeImage() else {
                 return image
             }
