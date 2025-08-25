@@ -15,6 +15,7 @@
 		F4CBD39716B8CE5F003A4794 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4CBD39616B8CE5F003A4794 /* Cocoa.framework */; };
 		F4CBD3AD16B8CE5F003A4794 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4CBD3AB16B8CE5F003A4794 /* MainMenu.xib */; };
 		F952D6E324E15A6200EA786D /* QCUsbWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F952D6E224E15A6200EA786D /* QCUsbWatcher.swift */; };
+		F952D6E324E15A6200EA786E /* QCQRCodeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F952D6E224E15A6200EA786F /* QCQRCodeReader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,10 +29,12 @@
 		F43D252C16BB703100CBC272 /* Quick Camera.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Quick Camera.entitlements"; sourceTree = "<group>"; };
 		F4CBD39316B8CE5F003A4794 /* Quick Camera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Quick Camera.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4CBD39616B8CE5F003A4794 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		F952D6E224E15A6200EA7870 /* libzbar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libzbar.a"; path = "libzbar.a"; sourceTree = "<group>"; };
 		F4CBD39916B8CE5F003A4794 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		F4CBD39A16B8CE5F003A4794 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		F4CBD39B16B8CE5F003A4794 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F952D6E224E15A6200EA786D /* QCUsbWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCUsbWatcher.swift; sourceTree = "<group>"; };
+		F952D6E224E15A6200EA786F /* QCQRCodeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCQRCodeReader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +45,7 @@
 				87673A631E35C97A002ECF15 /* AVFoundation.framework in Frameworks */,
 				87FF95021E355CDB0017DADB /* AVKit.framework in Frameworks */,
 				F4CBD39716B8CE5F003A4794 /* Cocoa.framework in Frameworks */,
+				F952D6E324E15A6200EA7871 /* libzbar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +76,7 @@
 				87673A621E35C97A002ECF15 /* AVFoundation.framework */,
 				87FF95011E355CDB0017DADB /* AVKit.framework */,
 				F4CBD39616B8CE5F003A4794 /* Cocoa.framework */,
+				F952D6E224E15A6200EA7870 /* libzbar.a */,
 				F4CBD39816B8CE5F003A4794 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -96,6 +101,7 @@
 				F43D252C16BB703100CBC272 /* Quick Camera.entitlements */,
 				F4CBD3AB16B8CE5F003A4794 /* MainMenu.xib */,
 				F952D6E224E15A6200EA786D /* QCUsbWatcher.swift */,
+				F952D6E224E15A6200EA786F /* QCQRCodeReader.swift */,
 			);
 			path = "Quick Camera";
 			sourceTree = "<group>";
@@ -132,7 +138,6 @@
 				ORGANIZATIONNAME = "Simon Guest";
 				TargetAttributes = {
 					F4CBD39216B8CE5F003A4794 = {
-						DevelopmentTeam = KRZC59WTY9;
 						LastSwiftMigration = "";
 					};
 				};
@@ -175,10 +180,13 @@
 				87FF95201E35B7CE0017DADB /* QCAppDelegate.swift in Sources */,
 				F952D6E324E15A6200EA786D /* QCUsbWatcher.swift in Sources */,
 				F435396A2D1B1B86002188A0 /* QCSettingsManager.swift in Sources */,
+				F952D6E324E15A6200EA786E /* QCQRCodeReader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+
 
 /* Begin PBXVariantGroup section */
 		F4CBD3AB16B8CE5F003A4794 /* MainMenu.xib */ = {
@@ -228,6 +236,8 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "/opt/homebrew/include";
+				OTHER_LDFLAGS = "-L\"$(SRCROOT)/Quick Camera\" -lzbar -liconv";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -290,6 +300,8 @@
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				HEADER_SEARCH_PATHS = "/opt/homebrew/include";
+				OTHER_LDFLAGS = "-L\"$(SRCROOT)/Quick Camera\" -lzbar -liconv";
 			};
 			name = Release;
 		};
@@ -303,7 +315,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1.5;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = KRZC59WTY9;
+				DEVELOPMENT_TEAM = 3GQLK6U452;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QCamera/QCamera-Prefix.pch";
@@ -314,7 +326,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MARKETING_VERSION = 1.5;
-				PRODUCT_BUNDLE_IDENTIFIER = com.simonguest.QCamera;
+				PRODUCT_BUNDLE_IDENTIFIER = com.masamasa.QCameraQR;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
@@ -324,6 +336,13 @@
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = app;
+				HEADER_SEARCH_PATHS = "/opt/homebrew/include";
+				OTHER_LDFLAGS = "-L\"$(SRCROOT)/Quick Camera\" -lzbar -liconv";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path",
+				);
 			};
 			name = Debug;
 		};
@@ -337,7 +356,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1.5;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = KRZC59WTY9;
+				DEVELOPMENT_TEAM = 3GQLK6U452;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QCamera/QCamera-Prefix.pch";
@@ -348,7 +367,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MARKETING_VERSION = 1.5;
-				PRODUCT_BUNDLE_IDENTIFIER = com.simonguest.QCamera;
+				PRODUCT_BUNDLE_IDENTIFIER = com.masamasa.QCameraQR;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
@@ -357,6 +376,13 @@
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = app;
+				HEADER_SEARCH_PATHS = "/opt/homebrew/include";
+				OTHER_LDFLAGS = "-L\"$(SRCROOT)/Quick Camera\" -lzbar -liconv";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path",
+				);
 			};
 			name = Release;
 		};

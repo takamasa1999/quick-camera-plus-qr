@@ -114,6 +114,12 @@
                                     <action selector="borderless:" target="494" id="XSj-SB-hEo"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="QR Code Reading" keyEquivalent="q" id="QR1">
+                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
+                                <connections>
+                                    <action selector="toggleQRCodeReading:" target="494" id="QR2"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Fix Aspect Ratio" keyEquivalent="a" id="eHX-9R-cym">
                                 <connections>
                                     <action selector="toggleFixAspectRatio:" target="-1" id="5T3-Dw-OxE"/>

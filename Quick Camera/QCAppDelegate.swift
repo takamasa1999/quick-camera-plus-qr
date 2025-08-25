@@ -4,7 +4,7 @@ import Cocoa
 
 // MARK: - QCAppDelegate Class
 @NSApplicationMain
-class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
+class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, QCQRCodeReaderDelegate {
 
     // MARK: - USB Watcher
     let usb: QCUsbWatcher = QCUsbWatcher()
@@ -21,6 +21,11 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
     @IBOutlet weak var mirroredMenu: NSMenuItem!
     @IBOutlet weak var upsideDownMenu: NSMenuItem!
     @IBOutlet weak var playerView: NSView!
+
+    // MARK: - QR Code Reading
+    private let qrReader = QCQRCodeReader()
+    private var videoOutput: AVCaptureVideoDataOutput?
+    private var isQRReadingEnabled = false
 
     // MARK: - Settings Properties
     var isMirrored: Bool {
@@ -136,6 +141,10 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
         do {
             self.input = try AVCaptureDeviceInput(device: device)
             self.captureSession.addInput(input)
+            
+            // QRコード読み取り用のビデオ出力を設定
+            setupVideoOutput()
+            
             self.captureSession.startRunning()
             self.captureLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
             self.captureLayer.connection?.automaticallyAdjustsVideoMirroring = false
@@ -154,6 +163,18 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
                     "Unfortunately, there was an error when trying to access the camera. Try again or select a different one."
             )
         }
+    }
+    
+    private func setupVideoOutput() {
+        videoOutput = AVCaptureVideoDataOutput()
+        videoOutput?.setSampleBufferDelegate(self, queue: DispatchQueue.global(qos: .userInitiated))
+        
+        if let videoOutput = videoOutput {
+            captureSession.addOutput(videoOutput)
+        }
+        
+        // QRコードリーダーの設定
+        qrReader.delegate = self
     }
 
     // MARK: - Settings Management
@@ -471,6 +492,101 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate {
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
+    }
+    
+    // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard isQRReadingEnabled else { return }
+        qrReader.startReading(from: sampleBuffer)
+    }
+    
+    // MARK: - QCQRCodeReaderDelegate
+    func didDetectQRCode(_ code: String) {
+        DispatchQueue.main.async {
+            // URLかどうかをチェック
+            if self.isValidURL(code) {
+                let alert = NSAlert()
+                alert.messageText = "QRコードでURLを検出しました"
+                alert.informativeText = code
+                alert.addButton(withTitle: "開く")
+                alert.addButton(withTitle: "コピー")
+                alert.addButton(withTitle: "キャンセル")
+                
+                let response = alert.runModal()
+                if response == .alertFirstButtonReturn {
+                    // URLを開く
+                    if let url = URL(string: code) {
+                        NSWorkspace.shared.open(url)
+                    }
+                } else if response == .alertSecondButtonReturn {
+                    // クリップボードにコピー
+                    let pasteboard = NSPasteboard.general
+                    pasteboard.clearContents()
+                    pasteboard.setString(code, forType: .string)
+                }
+            } else {
+                // URL以外の場合は従来通り
+                let alert = NSAlert()
+                alert.messageText = "QRコードを検出しました"
+                alert.informativeText = code
+                alert.addButton(withTitle: "コピー")
+                alert.addButton(withTitle: "OK")
+                
+                let response = alert.runModal()
+                if response == .alertFirstButtonReturn {
+                    let pasteboard = NSPasteboard.general
+                    pasteboard.clearContents()
+                    pasteboard.setString(code, forType: .string)
+                }
+            }
+        }
+    }
+    
+    func didFailToReadQRCode(_ error: Error) {
+        NSLog("QRコード読み取りエラー: %@", error.localizedDescription)
+    }
+    
+    // MARK: - URL Validation Helper
+    private func isValidURL(_ string: String) -> Bool {
+        guard let url = URL(string: string) else {
+            return false
+        }
+        
+        // URLが有効なスキームを持っているかチェック
+        guard let scheme = url.scheme?.lowercased() else {
+            return false
+        }
+        
+        // サポートするスキームを定義
+        let supportedSchemes = ["http", "https", "ftp", "ftps", "mailto", "tel"]
+        
+        // スキームがサポートされているかチェック
+        guard supportedSchemes.contains(scheme) else {
+            return false
+        }
+        
+        // HTTPまたはHTTPSの場合、ホストが存在するかチェック
+        if scheme == "http" || scheme == "https" {
+            guard let host = url.host, !host.isEmpty else {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    // MARK: - QR Code Control Actions
+    @IBAction func toggleQRCodeReading(_ sender: NSMenuItem) {
+        isQRReadingEnabled = !isQRReadingEnabled
+        sender.state = convertToNSControlStateValue(
+            (isQRReadingEnabled ? NSControl.StateValue.on.rawValue : NSControl.StateValue.off.rawValue))
+        
+        if isQRReadingEnabled {
+            NSLog("QRコード読み取りを開始しました")
+        } else {
+            NSLog("QRコード読み取りを停止しました")
+            qrReader.stopReading()
+        }
     }
 }
 
