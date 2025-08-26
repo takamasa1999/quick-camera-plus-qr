@@ -3,6 +3,14 @@
 This is a fork from [ Quick Camera ](https://github.com/simonguest/quick-camera). Thanks to the author for making such an efficient, reliable camera utility.  
 We plan to add QR code reading functionality by utilizing [ Zbar ](https://github.com/mchehab/zbar?utm_source=chatgpt.com) as the backend.
 
+<!-- toc -->
+
+- [Motivation](#motivation)
+- [Objective](#objective)
+- [Build (copied from main stream)](#build-copied-from-main-stream)
+
+<!-- tocstop -->
+
 ## Motivation
 
 It seems like currently there's no FOSS lightweight QR code reader for macOS. I use QR codes day-to-day for sending Wi-Fi passwords, web links, draft sentences, etc., since they're minimal and just work.  
