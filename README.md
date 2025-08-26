@@ -40,3 +40,6 @@ open build/release/Quick\ Camera.app
 ```
 
 Finally, a Package.swift file is included for building Quick Camera using Swift Package Manager. This, however, is designed only to support editing Quick Camera in VS Code (via the Swift Language Support extension and LSP).
+
+
+TEST
