@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="23094" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="23727" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23094"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23727"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,10 +15,10 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <menu title="AMainMenu" systemMenu="main" id="29">
             <items>
-                <menuItem title="Quick Camera" id="56">
-                    <menu key="submenu" title="Quick Camera" systemMenu="apple" id="57">
+                <menuItem title="Quick Camera +QR" id="56">
+                    <menu key="submenu" title="Quick Camera +QR" systemMenu="apple" id="57">
                         <items>
-                            <menuItem title="About Quick Camera" id="58">
+                            <menuItem title="About Quick Camera +QR" id="58">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="orderFrontStandardAboutPanel:" target="-2" id="142"/>
@@ -37,7 +37,7 @@
                             <menuItem isSeparatorItem="YES" id="144">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Hide Quick Camera" keyEquivalent="h" id="134">
+                            <menuItem title="Hide Quick Camera +QR" keyEquivalent="h" id="134">
                                 <connections>
                                     <action selector="hide:" target="-1" id="367"/>
                                 </connections>
@@ -56,9 +56,9 @@
                             <menuItem isSeparatorItem="YES" id="149">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Quit Quick Camera" keyEquivalent="q" id="136">
+                            <menuItem title="Quit Quick Camera +QR" keyEquivalent="q" id="136">
                                 <connections>
-                                    <action selector="terminate:" target="-3" id="449"/>
+                                    <action selector="terminate:" target="-1" id="IZm-yT-dQu"/>
                                 </connections>
                             </menuItem>
                         </items>
@@ -114,12 +114,6 @@
                                     <action selector="borderless:" target="494" id="XSj-SB-hEo"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="QR Code Reading" keyEquivalent="q" id="QR1">
-                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
-                                <connections>
-                                    <action selector="toggleQRCodeReading:" target="494" id="QR2"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Fix Aspect Ratio" keyEquivalent="a" id="eHX-9R-cym">
                                 <connections>
                                     <action selector="toggleFixAspectRatio:" target="-1" id="5T3-Dw-OxE"/>
@@ -137,9 +131,16 @@
                                     <action selector="enterFullScreen:" target="494" id="SVF-ca-TFE"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="YuD-fh-x4O"/>
-                            <menuItem title="Save Settings" id="fSo-F6-aJo">
+                            <menuItem isSeparatorItem="YES" id="P1K-lN-Wsg"/>
+                            <menuItem title="Disable QR Code Reading" keyEquivalent="Q" id="QR1">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="toggleQRCodeReading:" target="494" id="QR2"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="YuD-fh-x4O"/>
+                            <menuItem title="Save Settings" keyEquivalent="S" id="fSo-F6-aJo">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                                 <connections>
                                     <action selector="saveSettings:" target="-1" id="5XG-Ua-ecs"/>
                                 </connections>
@@ -396,7 +397,7 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Help" systemMenu="help" id="491">
                         <items>
-                            <menuItem title="Quick Camera Help" keyEquivalent="?" id="492">
+                            <menuItem title="Quick Camera +QR Help" keyEquivalent="?" id="492">
                                 <connections>
                                     <action selector="showHelp:" target="-1" id="493"/>
                                 </connections>
@@ -405,24 +406,25 @@
                     </menu>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="103" y="183"/>
+            <point key="canvasLocation" x="68" y="138"/>
         </menu>
-        <window title="Quick Camera" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
+        <window title="Quick Camera +QR" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="335" y="390" width="509" height="360"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1055"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="775"/>
             <view key="contentView" wantsLayer="YES" id="372">
                 <rect key="frame" x="0.0" y="0.0" width="509" height="360"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             </view>
             <point key="canvasLocation" x="140.5" y="-105"/>
         </window>
-        <customObject id="494" customClass="QCAppDelegate" customModule="Quick_Camera">
+        <customObject id="494" customClass="QCAppDelegate" customModule="Quick_Camera__QR">
             <connections>
                 <outlet property="aspectRatioFixedMenu" destination="eHX-9R-cym" id="GfZ-zt-Ngf"/>
                 <outlet property="borderlessMenu" destination="651" id="4dH-7A-gNz"/>
                 <outlet property="mirroredMenu" destination="78" id="tGe-Jf-YeE"/>
                 <outlet property="playerView" destination="372" id="tVX-fO-IZ2"/>
+                <outlet property="qrReadingDisableMenuItem" destination="QR1" id="MBo-YC-LfC"/>
                 <outlet property="selectSourceMenu" destination="124" id="h5v-Cn-4oU"/>
                 <outlet property="upsideDownMenu" destination="658" id="Vs1-9X-1BU"/>
                 <outlet property="window" destination="371" id="fTI-Cc-re1"/>

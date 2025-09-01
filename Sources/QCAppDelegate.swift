@@ -1,17 +1,19 @@
-import AVFoundation
 import AVKit
 import Cocoa
 
 // MARK: - QCAppDelegate Class
 @NSApplicationMain
-class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, QCQRCodeReaderDelegate {
-
+class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate,
+    AVCaptureVideoDataOutputSampleBufferDelegate, QCQRCodeReaderDelegate
+{
     // MARK: - USB Watcher
     let usb: QCUsbWatcher = QCUsbWatcher()
     func deviceCountChanged() {
         self.detectVideoDevices()
         self.startCaptureWithVideoDevice(defaultDevice: selectedDeviceIndex)
     }
+
+    private var videoOutput: AVCaptureVideoDataOutput?
 
     // MARK: - Interface Builder Outlets
     @IBOutlet weak var window: NSWindow!
@@ -21,11 +23,10 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCa
     @IBOutlet weak var mirroredMenu: NSMenuItem!
     @IBOutlet weak var upsideDownMenu: NSMenuItem!
     @IBOutlet weak var playerView: NSView!
+    @IBOutlet weak var qrReadingDisableMenuItem: NSMenuItem!
 
     // MARK: - QR Code Reading
     private let qrReader = QCQRCodeReader()
-    private var videoOutput: AVCaptureVideoDataOutput?
-    private var isQRReadingEnabled = false
 
     // MARK: - Settings Properties
     var isMirrored: Bool {
@@ -52,6 +53,10 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCa
         get { QCSettingsManager.shared.deviceName }
         set { QCSettingsManager.shared.setDeviceName(newValue) }
     }
+    var isQRReadingEnabled: Bool {
+        get { QCSettingsManager.shared.isQRCodeReadingEnabled }
+        set { QCSettingsManager.shared.setQRCodeReadingEnabled(newValue) }
+    }
 
     // MARK: - Window Properties
     var defaultBorderStyle: NSWindow.StyleMask = NSWindow.StyleMask.closable
@@ -65,6 +70,11 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCa
     var captureLayer: AVCaptureVideoPreviewLayer!
 
     var input: AVCaptureDeviceInput!
+
+    // QR Prompt Control
+    private var isQRPromptActive = false
+    private var lastPromptedAt: Date? = nil
+    private let promptCooldown: TimeInterval = 1.0
 
     // MARK: - Error Handling
     func errorMessage(message: String) {
@@ -141,10 +151,10 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCa
         do {
             self.input = try AVCaptureDeviceInput(device: device)
             self.captureSession.addInput(input)
-            
+
             // Set up video output for QR code reading
             setupVideoOutput()
-            
+
             self.captureSession.startRunning()
             self.captureLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
             self.captureLayer.connection?.automaticallyAdjustsVideoMirroring = false
@@ -152,7 +162,7 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCa
 
             self.playerView.layer = self.captureLayer
             self.playerView.layer?.backgroundColor = CGColor.black
-            self.windowTitle = String(format: "Quick Camera: [%@]", device.localizedName)
+            self.windowTitle = String(format: "Quick Camera +QR: [%@]", device.localizedName)
             self.window.title = self.windowTitle
             self.deviceName = device.localizedName
             self.applySettings()
@@ -164,15 +174,15 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCa
             )
         }
     }
-    
+
     private func setupVideoOutput() {
         videoOutput = AVCaptureVideoDataOutput()
         videoOutput?.setSampleBufferDelegate(self, queue: DispatchQueue.global(qos: .userInitiated))
-        
+
         if let videoOutput = videoOutput {
             captureSession.addOutput(videoOutput)
         }
-        
+
         // Configure QR code reader
         qrReader.delegate = self
     }
@@ -218,6 +228,10 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCa
             (isUpsideDown ? NSControl.StateValue.on.rawValue : NSControl.StateValue.off.rawValue))
         self.aspectRatioFixedMenu.state = convertToNSControlStateValue(
             (isAspectRatioFixed
+                ? NSControl.StateValue.on.rawValue : NSControl.StateValue.off.rawValue))
+
+        self.qrReadingDisableMenuItem.state = convertToNSControlStateValue(
+            (!isQRReadingEnabled
                 ? NSControl.StateValue.on.rawValue : NSControl.StateValue.off.rawValue))
     }
 
@@ -493,17 +507,95 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCa
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
     }
-    
+
     // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+    // func captureOutput(
+    //     _ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer,
+    //     from connection: AVCaptureConnection
+    // ) {
+    //     guard isQRReadingEnabled else { return }
+    //     qrReader.startReading(from: sampleBuffer)
+    // }
+    func captureOutput(
+        _ output: AVCaptureOutput,
+        didOutput sampleBuffer: CMSampleBuffer,
+        from connection: AVCaptureConnection
+    ) {
+        // 1) 機能自体がOFFなら読まない
         guard isQRReadingEnabled else { return }
+
+        // 2) アラート表示中は読まない
+        guard !isQRPromptActive else { return }
+
+        // 3) 直近に提示した直後は少しクールダウン（任意）
+        if let t = lastPromptedAt, Date().timeIntervalSince(t) < promptCooldown { return }
+
         qrReader.startReading(from: sampleBuffer)
     }
-    
+
+    // private func presentAlert(
+    //     _ alert: NSAlert, handler: @escaping (NSApplication.ModalResponse) -> Void
+    // ) {
+    //     alert.beginSheetModal(for: self.window, completionHandler: handler)
+    // }
+    private func presentAlert(
+        _ alert: NSAlert,
+        completion: @escaping (NSApplication.ModalResponse) -> Void
+    ) {
+        isQRPromptActive = true
+        NSApp.activate(ignoringOtherApps: true)
+
+        alert.beginSheetModal(for: self.window) { [weak self] resp in
+            guard let self = self else { return }
+            self.lastPromptedAt = Date()
+            self.isQRPromptActive = false
+            completion(resp)
+        }
+    }
+
     // MARK: - QCQRCodeReaderDelegate
+    // func didDetectQRCode(_ code: String) {
+    //     DispatchQueue.main.async {
+    //         // Check if it's a URL
+    //         if self.isValidURL(code) {
+    //             let alert = NSAlert()
+    //             alert.messageText = "QR Code URL Detected"
+    //             alert.informativeText = code
+    //             alert.addButton(withTitle: "Open")
+    //             alert.addButton(withTitle: "Copy")
+    //             alert.addButton(withTitle: "Cancel")
+    //
+    //             let response = alert.runModal()
+    //             if response == .alertFirstButtonReturn {
+    //                 // Open URL
+    //                 if let url = URL(string: code) {
+    //                     NSWorkspace.shared.open(url)
+    //                 }
+    //             } else if response == .alertSecondButtonReturn {
+    //                 // Copy to clipboard
+    //                 let pasteboard = NSPasteboard.general
+    //                 pasteboard.clearContents()
+    //                 pasteboard.setString(code, forType: .string)
+    //             }
+    //         } else {
+    //             // For non-URL content, use standard behavior
+    //             let alert = NSAlert()
+    //             alert.messageText = "QR Code Detected"
+    //             alert.informativeText = code
+    //             alert.addButton(withTitle: "Copy")
+    //             alert.addButton(withTitle: "OK")
+    //
+    //             let response = alert.runModal()
+    //             if response == .alertFirstButtonReturn {
+    //                 let pasteboard = NSPasteboard.general
+    //                 pasteboard.clearContents()
+    //                 pasteboard.setString(code, forType: .string)
+    //             }
+    //         }
+    //     }
+    // }
     func didDetectQRCode(_ code: String) {
         DispatchQueue.main.async {
-            // Check if it's a URL
             if self.isValidURL(code) {
                 let alert = NSAlert()
                 alert.messageText = "QR Code URL Detected"
@@ -511,81 +603,86 @@ class QCAppDelegate: NSObject, NSApplicationDelegate, QCUsbWatcherDelegate, AVCa
                 alert.addButton(withTitle: "Open")
                 alert.addButton(withTitle: "Copy")
                 alert.addButton(withTitle: "Cancel")
-                
-                let response = alert.runModal()
-                if response == .alertFirstButtonReturn {
-                    // Open URL
-                    if let url = URL(string: code) {
+
+                self.presentAlert(alert) { response in
+                    if response == .alertFirstButtonReturn, let url = URL(string: code) {
                         NSWorkspace.shared.open(url)
+                    } else if response == .alertSecondButtonReturn {
+                        NSPasteboard.general.clearContents()
+                        NSPasteboard.general.setString(code, forType: .string)
                     }
-                } else if response == .alertSecondButtonReturn {
-                    // Copy to clipboard
-                    let pasteboard = NSPasteboard.general
-                    pasteboard.clearContents()
-                    pasteboard.setString(code, forType: .string)
                 }
             } else {
-                // For non-URL content, use standard behavior
                 let alert = NSAlert()
                 alert.messageText = "QR Code Detected"
                 alert.informativeText = code
                 alert.addButton(withTitle: "Copy")
                 alert.addButton(withTitle: "OK")
-                
-                let response = alert.runModal()
-                if response == .alertFirstButtonReturn {
-                    let pasteboard = NSPasteboard.general
-                    pasteboard.clearContents()
-                    pasteboard.setString(code, forType: .string)
+
+                self.presentAlert(alert) { response in
+                    if response == .alertFirstButtonReturn {
+                        NSPasteboard.general.clearContents()
+                        NSPasteboard.general.setString(code, forType: .string)
+                    }
                 }
             }
         }
     }
-    
+
     func didFailToReadQRCode(_ error: Error) {
         NSLog("QR Code reading error: %@", error.localizedDescription)
     }
-    
+
     // MARK: - URL Validation Helper
     private func isValidURL(_ string: String) -> Bool {
         guard let url = URL(string: string) else {
             return false
         }
-        
+
         // Check if URL has valid scheme
         guard let scheme = url.scheme?.lowercased() else {
             return false
         }
-        
+
         // Define supported schemes
         let supportedSchemes = ["http", "https", "ftp", "ftps", "mailto", "tel"]
-        
+
         // Check if scheme is supported
         guard supportedSchemes.contains(scheme) else {
             return false
         }
-        
+
         // For HTTP or HTTPS, check if host exists
         if scheme == "http" || scheme == "https" {
             guard let host = url.host, !host.isEmpty else {
                 return false
             }
         }
-        
+
         return true
     }
-    
+
     // MARK: - QR Code Control Actions
     @IBAction func toggleQRCodeReading(_ sender: NSMenuItem) {
         isQRReadingEnabled = !isQRReadingEnabled
-        sender.state = convertToNSControlStateValue(
-            (isQRReadingEnabled ? NSControl.StateValue.on.rawValue : NSControl.StateValue.off.rawValue))
-        
+
         if isQRReadingEnabled {
+            sender.state = convertToNSControlStateValue(NSControl.StateValue.off.rawValue)
+
             NSLog("QR Code reading started")
+            let alert = NSAlert()
+            alert.messageText = "QR Code reading enabled! 💪"
+            alert.addButton(withTitle: "OK")
+            alert.runModal()
         } else {
-            NSLog("QR Code reading stopped")
+            sender.state = convertToNSControlStateValue(NSControl.StateValue.on.rawValue)
             qrReader.stopReading()
+
+            NSLog("QR Code reading stopped")
+            let alert = NSAlert()
+            alert.messageText = "QR Code reading disabled. 👋"
+            alert.addButton(withTitle: "OK")
+            alert.runModal()
         }
     }
 }

@@ -16,6 +16,15 @@ profile
 *.moved-aside
 DerivedData
 .idea/
-.vscode/
 .build/
+
+# Leende development
+.vscode/
 CLAUDE.md
+
+# Repainter development
+buildServer.json
+.nvim
+package.json
+package-lock.json
+node_modules

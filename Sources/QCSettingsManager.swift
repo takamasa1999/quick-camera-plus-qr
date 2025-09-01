@@ -17,6 +17,9 @@ class QCSettingsManager {
     private(set) var frameWidth: Float = 0
     private(set) var frameHeight: Float = 0
 
+    // MARK: - QR Code Reading
+    private(set) var isQRCodeReadingEnabled: Bool = true
+
     // MARK: - Singleton
     static let shared: QCSettingsManager = QCSettingsManager()
 
@@ -56,6 +59,10 @@ class QCSettingsManager {
         frameHeight = height
     }
 
+    func setQRCodeReadingEnabled(_ value: Bool) {
+        isQRCodeReadingEnabled = value
+    }
+
     // MARK: - Settings Management
     func loadSettings() {
         logSettings(label: "before loadSettings")
@@ -76,6 +83,12 @@ class QCSettingsManager {
             NSLog("loaded : x:%f,y:%f,w:%f,h:%f", frameX, frameY, frameWidth, frameHeight)
         }
 
+        if let v = UserDefaults.standard.object(forKey: "qrReadingEnabled") as? Bool {
+            isQRCodeReadingEnabled = v
+        } else {
+            isQRCodeReadingEnabled = true
+        }
+
         logSettings(label: "after loadSettings")
     }
 
@@ -91,6 +104,7 @@ class QCSettingsManager {
         UserDefaults.standard.set(frameY, forKey: "frameY")
         UserDefaults.standard.set(frameWidth, forKey: "frameW")
         UserDefaults.standard.set(frameHeight, forKey: "frameH")
+        UserDefaults.standard.set(isQRCodeReadingEnabled, forKey: "qrReadingEnabled")
     }
 
     func clearSettings() {
