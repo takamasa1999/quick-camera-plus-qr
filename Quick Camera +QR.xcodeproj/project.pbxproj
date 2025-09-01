@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F190B38E764F3C71A268358 /* README.dev.md in Sources */ = {isa = PBXBuildFile; fileRef = 136E60BD024F9185FD97077C /* README.dev.md */; };
+		7FF8A4482E65DBB70037AEC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7FF8A4472E65DBB70037AEC2 /* Assets.xcassets */; };
 		87673A631E35C97A002ECF15 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87673A621E35C97A002ECF15 /* AVFoundation.framework */; };
 		87FF95021E355CDB0017DADB /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87FF95011E355CDB0017DADB /* AVKit.framework */; };
 		87FF95201E35B7CE0017DADB /* QCAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FF951F1E35B7CE0017DADB /* QCAppDelegate.swift */; };
@@ -15,23 +17,30 @@
 		F4CBD39716B8CE5F003A4794 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4CBD39616B8CE5F003A4794 /* Cocoa.framework */; };
 		F4CBD3AD16B8CE5F003A4794 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4CBD3AB16B8CE5F003A4794 /* MainMenu.xib */; };
 		F952D6E324E15A6200EA786D /* QCUsbWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F952D6E224E15A6200EA786D /* QCUsbWatcher.swift */; };
+		F952D6E324E15A6200EA786E /* QCQRCodeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F952D6E224E15A6200EA786F /* QCQRCodeReader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		136E60BD024F9185FD97077C /* README.dev.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.dev.md; sourceTree = "<group>"; };
+		7F40D68A2E652987003B9CD8 /* Quick-Camera--QR-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Quick-Camera--QR-Info.plist"; sourceTree = "<group>"; };
+		7FF8A4472E65DBB70037AEC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		87673A621E35C97A002ECF15 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		87FF95011E355CDB0017DADB /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		87FF951F1E35B7CE0017DADB /* QCAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QCAppDelegate.swift; sourceTree = "<group>"; };
 		87FF95211E35BA3B0017DADB /* Quick Camera-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Quick Camera-Info.plist"; sourceTree = "<group>"; };
+		E3B588EDD89385AEBDF75C85 /* libzbar.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; path = libzbar.a; sourceTree = "<group>"; };
 		F40A9A182AB7BC630082BBC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		F43539692D1B1B85002188A0 /* QCSettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCSettingsManager.swift; sourceTree = "<group>"; };
 		F43D252A16BB508900CBC272 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
-		F43D252C16BB703100CBC272 /* Quick Camera.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Quick Camera.entitlements"; sourceTree = "<group>"; };
-		F4CBD39316B8CE5F003A4794 /* Quick Camera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Quick Camera.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F43D252C16BB703100CBC272 /* Sources.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sources.entitlements; sourceTree = "<group>"; };
+		F4CBD39316B8CE5F003A4794 /* Quick Camera +QR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Quick Camera +QR.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4CBD39616B8CE5F003A4794 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F4CBD39916B8CE5F003A4794 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		F4CBD39A16B8CE5F003A4794 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		F4CBD39B16B8CE5F003A4794 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F952D6E224E15A6200EA786D /* QCUsbWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCUsbWatcher.swift; sourceTree = "<group>"; };
+		F952D6E224E15A6200EA786F /* QCQRCodeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QCQRCodeReader.swift; sourceTree = "<group>"; };
+		F952D6E224E15A6200EA7870 /* libzbar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libzbar.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,11 +57,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5147BD0FA0889DBA330CF240 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		79307EA1CBC9C60BB906BFA7 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				E3B588EDD89385AEBDF75C85 /* libzbar.a */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
 		F4CBD38A16B8CE5F003A4794 = {
 			isa = PBXGroup;
 			children = (
+				7F40D68A2E652987003B9CD8 /* Quick-Camera--QR-Info.plist */,
 				F43D252A16BB508900CBC272 /* icon.icns */,
-				F4CBD39C16B8CE5F003A4794 /* Quick Camera */,
+				F4CBD39C16B8CE5F003A4794 /* Sources */,
 				F4CBD39516B8CE5F003A4794 /* Frameworks */,
 				F4CBD39416B8CE5F003A4794 /* Products */,
 			);
@@ -61,7 +86,7 @@
 		F4CBD39416B8CE5F003A4794 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F4CBD39316B8CE5F003A4794 /* Quick Camera.app */,
+				F4CBD39316B8CE5F003A4794 /* Quick Camera +QR.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -69,10 +94,13 @@
 		F4CBD39516B8CE5F003A4794 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7FF8A4472E65DBB70037AEC2 /* Assets.xcassets */,
 				87673A621E35C97A002ECF15 /* AVFoundation.framework */,
 				87FF95011E355CDB0017DADB /* AVKit.framework */,
 				F4CBD39616B8CE5F003A4794 /* Cocoa.framework */,
+				F952D6E224E15A6200EA7870 /* libzbar.a */,
 				F4CBD39816B8CE5F003A4794 /* Other Frameworks */,
+				136E60BD024F9185FD97077C /* README.dev.md */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -87,25 +115,28 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		F4CBD39C16B8CE5F003A4794 /* Quick Camera */ = {
+		F4CBD39C16B8CE5F003A4794 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				F43539692D1B1B85002188A0 /* QCSettingsManager.swift */,
 				87FF95211E35BA3B0017DADB /* Quick Camera-Info.plist */,
 				87FF951F1E35B7CE0017DADB /* QCAppDelegate.swift */,
-				F43D252C16BB703100CBC272 /* Quick Camera.entitlements */,
+				F43D252C16BB703100CBC272 /* Sources.entitlements */,
 				F4CBD3AB16B8CE5F003A4794 /* MainMenu.xib */,
 				F952D6E224E15A6200EA786D /* QCUsbWatcher.swift */,
+				F952D6E224E15A6200EA786F /* QCQRCodeReader.swift */,
+				5147BD0FA0889DBA330CF240 /* Headers */,
+				79307EA1CBC9C60BB906BFA7 /* Libraries */,
 			);
-			path = "Quick Camera";
+			path = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F4CBD39216B8CE5F003A4794 /* Quick Camera */ = {
+		F4CBD39216B8CE5F003A4794 /* Quick Camera +QR */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F4CBD3B016B8CE5F003A4794 /* Build configuration list for PBXNativeTarget "Quick Camera" */;
+			buildConfigurationList = F4CBD3B016B8CE5F003A4794 /* Build configuration list for PBXNativeTarget "Quick Camera +QR" */;
 			buildPhases = (
 				F4CBD38F16B8CE5F003A4794 /* Sources */,
 				F4CBD39016B8CE5F003A4794 /* Frameworks */,
@@ -115,9 +146,9 @@
 			);
 			dependencies = (
 			);
-			name = "Quick Camera";
+			name = "Quick Camera +QR";
 			productName = QCamera;
-			productReference = F4CBD39316B8CE5F003A4794 /* Quick Camera.app */;
+			productReference = F4CBD39316B8CE5F003A4794 /* Quick Camera +QR.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -128,16 +159,15 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = SG;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 1640;
 				ORGANIZATIONNAME = "Simon Guest";
 				TargetAttributes = {
 					F4CBD39216B8CE5F003A4794 = {
-						DevelopmentTeam = KRZC59WTY9;
 						LastSwiftMigration = "";
 					};
 				};
 			};
-			buildConfigurationList = F4CBD38E16B8CE5F003A4794 /* Build configuration list for PBXProject "Quick Camera" */;
+			buildConfigurationList = F4CBD38E16B8CE5F003A4794 /* Build configuration list for PBXProject "Quick Camera +QR" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -150,7 +180,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F4CBD39216B8CE5F003A4794 /* Quick Camera */,
+				F4CBD39216B8CE5F003A4794 /* Quick Camera +QR */,
 			);
 		};
 /* End PBXProject section */
@@ -161,6 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4CBD3AD16B8CE5F003A4794 /* MainMenu.xib in Resources */,
+				7FF8A4482E65DBB70037AEC2 /* Assets.xcassets in Resources */,
 				F43D252B16BB508900CBC272 /* icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -175,6 +206,8 @@
 				87FF95201E35B7CE0017DADB /* QCAppDelegate.swift in Sources */,
 				F952D6E324E15A6200EA786D /* QCUsbWatcher.swift in Sources */,
 				F435396A2D1B1B86002188A0 /* QCSettingsManager.swift in Sources */,
+				F952D6E324E15A6200EA786E /* QCQRCodeReader.swift in Sources */,
+				0F190B38E764F3C71A268358 /* README.dev.md in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +229,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -220,6 +254,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = D44NJAA75T;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -239,8 +274,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /opt/homebrew/include;
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-L\"$(SRCROOT)/Sources\"",
+					"-lzbar",
+					"-liconv",
+				);
 				SDKROOT = macosx;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 			};
@@ -250,6 +291,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -275,6 +317,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = D44NJAA75T;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -286,7 +329,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /opt/homebrew/include;
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
+				OTHER_LDFLAGS = (
+					"-L\"$(SRCROOT)/Sources\"",
+					"-lzbar",
+					"-liconv",
+				);
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -296,25 +345,40 @@
 		F4CBD3B116B8CE5F003A4794 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
+				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=macosx*]" = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "Quick Camera/Quick Camera.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Sources/Quick Camera.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1.5;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = KRZC59WTY9;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = D44NJAA75T;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QCamera/QCamera-Prefix.pch";
-				INFOPLIST_FILE = "Quick Camera/Quick Camera-Info.plist";
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources/Headers";
+				INFOPLIST_FILE = "Quick-Camera--QR-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Quick Camera +QR";
+				INFOPLIST_KEY_NSCameraUsageDescription = NSCameraUsageDescription;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
+					"@executable_path",
 				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/Sources/Libraries";
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MARKETING_VERSION = 1.5;
-				PRODUCT_BUNDLE_IDENTIFIER = com.simonguest.QCamera;
+				OTHER_LDFLAGS = (
+					"-L\"$(SRCROOT)/Sources\"",
+					"-lzbar",
+					"-liconv",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.repainter.QuickCameraPluseQR;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
@@ -330,25 +394,40 @@
 		F4CBD3B216B8CE5F003A4794 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
+				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=macosx*]" = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "Quick Camera/Quick Camera.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Sources/Quick Camera.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1.5;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = KRZC59WTY9;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = D44NJAA75T;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QCamera/QCamera-Prefix.pch";
-				INFOPLIST_FILE = "Quick Camera/Quick Camera-Info.plist";
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Sources/Headers";
+				INFOPLIST_FILE = "Quick-Camera--QR-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Quick Camera +QR";
+				INFOPLIST_KEY_NSCameraUsageDescription = NSCameraUsageDescription;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
+					"@executable_path",
 				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/Sources/Libraries";
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MARKETING_VERSION = 1.5;
-				PRODUCT_BUNDLE_IDENTIFIER = com.simonguest.QCamera;
+				OTHER_LDFLAGS = (
+					"-L\"$(SRCROOT)/Sources\"",
+					"-lzbar",
+					"-liconv",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.repainter.QuickCameraPluseQR;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
@@ -363,7 +442,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F4CBD38E16B8CE5F003A4794 /* Build configuration list for PBXProject "Quick Camera" */ = {
+		F4CBD38E16B8CE5F003A4794 /* Build configuration list for PBXProject "Quick Camera +QR" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F4CBD3AE16B8CE5F003A4794 /* Debug */,
@@ -372,7 +451,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F4CBD3B016B8CE5F003A4794 /* Build configuration list for PBXNativeTarget "Quick Camera" */ = {
+		F4CBD3B016B8CE5F003A4794 /* Build configuration list for PBXNativeTarget "Quick Camera +QR" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F4CBD3B116B8CE5F003A4794 /* Debug */,

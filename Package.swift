@@ -17,11 +17,13 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "Quick Camera",
+            dependencies: [],
             path: "Quick Camera",
             sources: [
                 "QCAppDelegate.swift",
                 "QCSettingsManager.swift",
                 "QCUsbWatcher.swift",
+                "QCQRCodeReader.swift",
             ]
         )
     ]
