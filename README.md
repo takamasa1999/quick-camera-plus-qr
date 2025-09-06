@@ -21,9 +21,10 @@
 
 ## Download & Installation
 
-Now, you can find the latest binary from the link below. Please follow the instructions on the page for the Installation.
-[v0.0.1](https://github.com/takamasa1999/quick-camera-plus-qr/releases/tag/v0.0.1)
-**Caution: This app is currently in active development. Expect bugs, crashes, and unfinished features.**
+You can grab the latest binary from the link below. Please follow the instructions on the page for the Installation.  
+[Download v0.0.1](https://github.com/takamasa1999/quick-camera-plus-qr/releases/tag/v0.0.1)
+
+**Note:** This app is in active development — expect bugs, crashes, and unfinished features.
 
 ## About
 
