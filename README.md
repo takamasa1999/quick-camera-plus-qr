@@ -1,9 +1,10 @@
 <div align="center">
+
 <h1>Quick Camera +QR</h1>
 
 <img alt="Camera Logo" height="120" src="./Assets.xcassets/AppIcon.appiconset/Icon-256.png" />
   
-<h5>Simple, lightweight, it just works</h5>
+<h5>Simple, lightweight, just works</h5>
 
 </div>
 
@@ -11,36 +12,32 @@
 
 <!-- toc -->
 
+- [Download & Installation](#download--installation)
 - [About](#about)
-- [Installation](#installation)
 - [Motivation](#motivation)
 - [Objective](#objective)
 
 <!-- tocstop -->
+
+## Download & Installation
+
+Now, you can find the latest binary from the link below. Please follow the instructions on the page for the Installation.
+[v0.0.1](https://github.com/takamasa1999/quick-camera-plus-qr/releases/tag/v0.0.1)
+**Caution: This app is currently in active development. Expect bugs, crashes, and unfinished features.**
 
 ## About
 
 This is a fork from [Quick Camera](https://github.com/simonguest/quick-camera). Thanks to the author for making such an efficient, reliable camera utility.  
 We plan to add QR code reading functionality by utilizing [Zbar](https://github.com/mchehab/zbar?utm_source=chatgpt.com) as the backend.
 
-Quick Camera is a macOS utility to display the output from any USB-based camera on your desktop. Quick Camera is often used for presentations where you need to show the output from an external device to your audience.
-
-Quick Camera supports mirroring (normal and reversed, both vertical and horizontal), can be rotated, resized to any size, and the window can be placed in the foreground.
-
-## Download & Installation
-
-You can find the latest binary from the link below. Please follow the instructions on the page to install it.
-[v0.0.1](https://github.com/takamasa1999/quick-camera-plus-qr/releases/tag/v0.0.1)
-**Caution: This app is currently in active development. Expect bugs, crashes, and unfinished features.**
-
 ## Motivation
 
-It seems like currently there's no FOSS lightweight QR code reader for macOS. I use QR codes day-to-day for sending Wi-Fi passwords, web links, draft sentences, etc., since they're minimal and just work.  
-I've been using Quick Camera because it's lightweight and reliable. In addition, it's a saintly FOSS. One thing that I'd been missing for the software is just the QR code reading functionality.  
-For a while, I was just hoping someone would add it. But wait... I'm a programmer too. And I realized my cousin can build apps for macOS. So why don't we build it ourselves?
+It seems like currently there's no FOSS lightweight QR code reader for macOS. I use QR codes day-to-day for passing Wi-Fi passwords, web links, draft sentences, etc., between various devices, since they're minimal and just work in any environment.  
+I've been using Quick Camera because it's lightweight and reliable. In addition, it's a divine FOSS. One thing that I'd been missing from the software is the QR code reading functionality.  
+For a while, I was waiting around for someone else to update the app. But then I remembered… hey, I code. And my cousin’s a macOS dev, too. So why not just build it ourselves?
 
 ## Objective
 
-Our objective for this app development is pretty simple. **Just adding QR code reading functionality to the upstream**.
+The goal for this app development is pretty simple. **Just adding QR code reading functionality to the upstream**.
 Keeping it simple, separation of concerns.  
 Optimally, bringing the same lightweight and efficient experience as the upstream provides.
