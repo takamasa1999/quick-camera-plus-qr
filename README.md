@@ -3,13 +3,7 @@
 
 <img alt="Camera Logo" height="120" src="./Assets.xcassets/AppIcon.appiconset/Icon-256.png" />
   
-<br/>
-<br/>
- 
-<strong>
-    Caution: This app is currently in active development.<br/>
-    Expect bugs, crashes, and unfinished features.
-</strong>
+<h5>Simple, lightweight, it just works</h5>
 
 </div>
 
@@ -18,6 +12,7 @@
 <!-- toc -->
 
 - [About](#about)
+- [Installation](#installation)
 - [Motivation](#motivation)
 - [Objective](#objective)
 
@@ -32,6 +27,12 @@ Quick Camera is a macOS utility to display the output from any USB-based camera 
 
 Quick Camera supports mirroring (normal and reversed, both vertical and horizontal), can be rotated, resized to any size, and the window can be placed in the foreground.
 
+## Download & Installation
+
+You can find the latest binary from the link below. Please follow the instructions on the page to install it.
+[v0.0.1](https://github.com/takamasa1999/quick-camera-plus-qr/releases/tag/v0.0.1)
+**Caution: This app is currently in active development. Expect bugs, crashes, and unfinished features.**
+
 ## Motivation
 
 It seems like currently there's no FOSS lightweight QR code reader for macOS. I use QR codes day-to-day for sending Wi-Fi passwords, web links, draft sentences, etc., since they're minimal and just work.  
@@ -43,5 +44,3 @@ For a while, I was just hoping someone would add it. But wait... I'm a programme
 Our objective for this app development is pretty simple. **Just adding QR code reading functionality to the upstream**.
 Keeping it simple, separation of concerns.  
 Optimally, bringing the same lightweight and efficient experience as the upstream provides.
-
-You can find the original app on the Mac App Store: https://itunes.apple.com/us/app/qcamera/id598853070?mt=12
