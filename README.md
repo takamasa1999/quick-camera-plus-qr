@@ -4,7 +4,7 @@
 
 <img alt="Camera Logo" height="120" src="./Assets.xcassets/AppIcon.appiconset/Icon-256.png" />
   
-<h5>Simple, lightweight, just works</h5>
+<h4>Simple, lightweight, just works</h4>
 
 </div>
 
